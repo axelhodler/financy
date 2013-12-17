@@ -7,7 +7,7 @@ Finance.prototype.encodeQuery = function(query) {
     return encodeURIComponent(query);
 };
 
-Finance.prototype.buildQuery = function(symbol) {
+Finance.prototype.buildStockQuery = function(symbol) {
     return 'select * from yahoo.finance.stocks where symbol="'
         + symbol + '"';
 };
@@ -17,9 +17,12 @@ Finance.prototype.buildQuoteQuery = function(symbol) {
         + symbol + '"';
 };
 
+Finance.prototype.buildUrl = function(encodedQuery) {
+    return this.baseUri + encodedQuery + this.suffix;
+};
+
 Finance.prototype.getStockInfos = function(symbol) {
-    fullUri = this.baseUri + this.encodeQuery(this.buildQuery(symbol)) +
-        this.suffix;
+    fullUri = this.buildUrl(this.encodeQuery(this.buildStockQuery(symbol)));
     return this.requestInfos(fullUri);
 };
 
@@ -31,7 +34,6 @@ Finance.prototype.requestInfos = function(uri) {
 };
 
 Finance.prototype.getQuoteInfos = function(symbol) {
-    fullUri = this.baseUri + this.encodeQuery(this.buildQuoteQuery(symbol)) +
-        this.suffix;
+    fullUri = this.buildUrl(this.encodeQuery(this.buildQuoteQuery(symbol)));
     return this.requestInfos(fullUri);
 };
