@@ -23,4 +23,12 @@ describe("Finance", function() {
                 .toEqual("Technology");
         });
     });
+
+    describe("when looking for the trade price of the Yahoo stock", function() {
+        it("should contain the name of the company", function() {
+            quoteAsJson = finance.getQuoteInfos("YHOO");
+            var parsedQuote = JSON.parse(quoteAsJson);
+            expect(parsedQuote.query.results.quote.Name).toEqual("Yahoo Inc.");
+        });
+    });
 });

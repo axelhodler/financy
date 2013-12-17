@@ -12,6 +12,11 @@ Finance.prototype.buildQuery = function(symbol) {
         + symbol + '"';
 };
 
+Finance.prototype.buildQuoteQuery = function(symbol) {
+    return 'select * from yahoo.finance.quote where symbol="'
+        + symbol + '"';
+};
+
 Finance.prototype.getStockInfos = function(symbol) {
     fullUri = this.baseUri + this.encodeQuery(this.buildQuery(symbol)) +
         this.suffix;
@@ -23,4 +28,10 @@ Finance.prototype.requestInfos = function(uri) {
     xmlHttp.open("GET", uri, false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
+};
+
+Finance.prototype.getQuoteInfos = function(symbol) {
+    fullUri = this.baseUri + this.encodeQuery(this.buildQuoteQuery(symbol)) +
+        this.suffix;
+    return this.requestInfos(fullUri);
 };
