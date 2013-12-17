@@ -1,0 +1,25 @@
+<html>
+  <body>
+    <script type="text/javascript">
+      var baseuri = "http://query.yahooapis.com/v1/public/yql?q="
+      var query = 'select * from yahoo.finance.stocks where symbol="yhoo"'
+
+      var suffix = "&format=json&env=store://datatables.org/alltableswithkeys"
+
+      fulluri = baseuri + encodeURIComponent(query) + suffix
+      console.log(fulluri)
+
+      var xmlHttp = null;
+
+      xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", fulluri, false );
+      xmlHttp.send(null);
+      var response = xmlHttp.responseText;
+
+      var obj = JSON.parse(response);
+      console.log(response)
+      console.log(obj.query.results.stock.Sector)
+
+    </script>
+  </body>
+</html>
