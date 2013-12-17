@@ -27,6 +27,11 @@ Finance.prototype.getStockInfos = function(symbol) {
     return this.getStockObject(responseText);
 };
 
+Finance.prototype.getQuoteObject = function(responseText) {
+    var parsedQuote = JSON.parse(responseText);
+    return parsedQuote.query.results.quote;
+};
+
 Finance.prototype.requestInfos = function(uri) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", uri, false);
@@ -36,11 +41,11 @@ Finance.prototype.requestInfos = function(uri) {
 
 Finance.prototype.getStockObject = function(responseText) {
     var parsedStock = JSON.parse(responseText);
-    console.log(parsedStock);
     return parsedStock.query.results.stock;
 };
 
 Finance.prototype.getQuoteInfos = function(symbol) {
     fullUri = this.buildUrl(this.encodeQuery(this.buildQuoteQuery(symbol)));
-    return this.requestInfos(fullUri);
+    var responseText = this.requestInfos(fullUri);
+    return this.getQuoteObject(responseText);
 };
