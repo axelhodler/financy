@@ -7,17 +7,20 @@ Finance.prototype.encodeQuery = function(query) {
     return encodeURIComponent(query);
 };
 
-Finance.prototype.buildQuery = function(stockCode) {
+Finance.prototype.buildQuery = function(symbol) {
     return 'select * from yahoo.finance.stocks where symbol="'
-        + stockCode + '"';
+        + symbol + '"';
 };
 
-Finance.prototype.getStockInfos = function(stockCode) {
-    fullUri = this.baseUri + this.encodeQuery(this.buildQuery(stockCode)) +
+Finance.prototype.getStockInfos = function(symbol) {
+    fullUri = this.baseUri + this.encodeQuery(this.buildQuery(symbol)) +
         this.suffix;
-    var xmlHttp = null;
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", fullUri, false);
+    return this.requestInfos(fullUri);
+};
+
+Finance.prototype.requestInfos = function(uri) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", uri, false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
 };
