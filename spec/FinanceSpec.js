@@ -14,4 +14,13 @@ describe("Finance", function() {
             expect(finance.encodeQuery(query)).toEqual(encodedQuery);
         });
     });
+
+    describe("when looking for the Sector of the Yahoo stock", function() {
+        it("should be 'Technology'", function() {
+            stockAsJson = finance.getStockInfos("YHOO");
+            var parsedStock = JSON.parse(stockAsJson);
+            expect(parsedStock.query.results.stock.Sector)
+                .toEqual("Technology");
+        });
+    });
 });
