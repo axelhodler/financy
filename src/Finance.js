@@ -23,7 +23,8 @@ Finance.prototype.buildUrl = function(encodedQuery) {
 
 Finance.prototype.getStockInfos = function(symbol) {
     fullUri = this.buildUrl(this.encodeQuery(this.buildStockQuery(symbol)));
-    return this.requestInfos(fullUri);
+    var responseText = this.requestInfos(fullUri);
+    return this.getStockObject(responseText);
 };
 
 Finance.prototype.requestInfos = function(uri) {
@@ -31,6 +32,12 @@ Finance.prototype.requestInfos = function(uri) {
     xmlHttp.open("GET", uri, false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
+};
+
+Finance.prototype.getStockObject = function(responseText) {
+    var parsedStock = JSON.parse(responseText);
+    console.log(parsedStock);
+    return parsedStock.query.results.stock;
 };
 
 Finance.prototype.getQuoteInfos = function(symbol) {
