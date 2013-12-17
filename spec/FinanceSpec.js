@@ -28,4 +28,17 @@ describe("Finance", function() {
             expect(quoteObj.Name).toEqual("Yahoo Inc.");
         });
     });
+
+    describe("when looking for the trade price of the Yahoo" +
+             "stock in a timeframe", function() {
+        it("should contain all the LastTradePriceOnly of these days",
+           function() {
+            ClosingPrices = finance.getHistorical("YHOO", "2012-01-03",
+                                                  "2012-01-07");
+            expect(ClosingPrices[0]).toEqual(16.29);
+            expect(ClosingPrices[1]).toEqual(15.78);
+            expect(ClosingPrices[2]).toEqual(15.64);
+            expect(ClosingPrices[3]).toEqual(15.52);
+        });
+    });
 });

@@ -17,6 +17,12 @@ Finance.prototype.buildQuoteQuery = function(symbol) {
         + symbol + '"';
 };
 
+Finance.prototype.buildHistoricalQuery = function(symbol, startDate, endDate) {
+    return 'select * from yahoo.finance.historicaldata where symbol = "'
+        + symbol + '" and startDate = "' + startDate + '" and endDate = "'
+        + endDate + '"';
+};
+
 Finance.prototype.buildUrl = function(encodedQuery) {
     return this.baseUri + encodedQuery + this.suffix;
 };
@@ -48,4 +54,37 @@ Finance.prototype.getQuoteInfos = function(symbol) {
     fullUri = this.buildUrl(this.encodeQuery(this.buildQuoteQuery(symbol)));
     var responseText = this.requestInfos(fullUri);
     return this.getQuoteObject(responseText);
+};
+
+Finance.prototype.getHistorical = function(symbol, startDate, endDate) {
+    fullUri = this.buildUrl(this.encodeQuery(this.buildHistoricalQuery(symbol,
+                                                                       startDate
+                                                                       , endDate
+                                                                      )));
+    var responseText = this.requestInfos(fullUri);
+    return this.getHistoricalPrices(responseText);
+};
+
+Finance.prototype.getHistoricalQuoteArray = function(responseText) {
+    var parsedResponse = JSON.parse(responseText);
+    return parsedResponse.query.results.quote;
+};
+
+Finance.prototype.getHistoricalPrices = function(responseText) {
+    ClosingPrices = new Array();
+    console.log("bla");
+    var parsedHistoricalQuoteArray = this.getHistoricalQuoteArray(responseText);
+    console.log(parsedHistoricalQuoteArray.length);
+
+    for (var i=parsedHistoricalQuoteArray.length; i>0;i--) {
+        var obj = parsedHistoricalQuoteArray[i-1];
+        for (var key in obj) {
+            console.log(key);
+            if (key === "Close") {
+                console.log(obj[key]);
+                ClosingPrices.push(parseFloat(obj[key]));
+            }
+        }
+    }
+    return ClosingPrices;
 };
