@@ -3,6 +3,27 @@ function Finance() {
     this.suffix = "&format=json&env=store://datatables.org/alltableswithkeys";
 }
 
+Finance.prototype.getStockInfos = function(symbol) {
+    fullUri = this.buildUrl(this.encodeQuery(buildStockQuery(symbol)));
+    var responseText = requestInfos(fullUri);
+    return getStockObject(responseText);
+};
+
+Finance.prototype.getQuoteInfos = function(symbol) {
+    fullUri = this.buildUrl(this.encodeQuery(buildQuoteQuery(symbol)));
+    var responseText = requestInfos(fullUri);
+    return getQuoteObject(responseText);
+};
+
+Finance.prototype.getHistorical = function(symbol, startDate, endDate) {
+    fullUri = this.buildUrl(this.encodeQuery(buildHistoricalQuery(symbol,
+                                                                       startDate
+                                                                       , endDate
+                                                                      )));
+    var responseText = requestInfos(fullUri);
+    return getHistoricalPrices(responseText);
+};
+
 Finance.prototype.encodeQuery = function(query) {
     return encodeURIComponent(query);
 };
@@ -42,27 +63,6 @@ function getStockObject(responseText) {
 function getQuoteObject(responseText) {
     var parsedQuote = JSON.parse(responseText);
     return parsedQuote.query.results.quote;
-};
-
-Finance.prototype.getStockInfos = function(symbol) {
-    fullUri = this.buildUrl(this.encodeQuery(buildStockQuery(symbol)));
-    var responseText = requestInfos(fullUri);
-    return getStockObject(responseText);
-};
-
-Finance.prototype.getQuoteInfos = function(symbol) {
-    fullUri = this.buildUrl(this.encodeQuery(buildQuoteQuery(symbol)));
-    var responseText = requestInfos(fullUri);
-    return getQuoteObject(responseText);
-};
-
-Finance.prototype.getHistorical = function(symbol, startDate, endDate) {
-    fullUri = this.buildUrl(this.encodeQuery(buildHistoricalQuery(symbol,
-                                                                       startDate
-                                                                       , endDate
-                                                                      )));
-    var responseText = requestInfos(fullUri);
-    return getHistoricalPrices(responseText);
 };
 
 function getHistoricalQuoteArray(responseText) {
