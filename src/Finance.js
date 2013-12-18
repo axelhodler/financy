@@ -70,21 +70,29 @@ Finance.prototype.getHistoricalQuoteArray = function(responseText) {
     return parsedResponse.query.results.quote;
 };
 
-Finance.prototype.getHistoricalPrices = function(responseText) {
-    ClosingPrices = new Array();
-    console.log("bla");
-    var parsedHistoricalQuoteArray = this.getHistoricalQuoteArray(responseText);
-    console.log(parsedHistoricalQuoteArray.length);
+function addClosingPriceToArray(obj, key) {
+    if (key === "Close") {
+        ClosingPrices.push(parseFloat(obj[key]));
+    }
+}
 
+function iterateTheKeysInQuote(obj) {
+    for (var key in obj) {
+        addClosingPriceToArray(obj, key);
+    }
+}
+
+function iterateTheQuoteArray(parsedHistoricalQuoteArray) {
     for (var i=parsedHistoricalQuoteArray.length; i>0;i--) {
         var obj = parsedHistoricalQuoteArray[i-1];
-        for (var key in obj) {
-            console.log(key);
-            if (key === "Close") {
-                console.log(obj[key]);
-                ClosingPrices.push(parseFloat(obj[key]));
-            }
-        }
+        iterateTheKeysInQuote(obj);
     }
+}
+
+Finance.prototype.getHistoricalPrices = function(responseText) {
+    ClosingPrices = new Array();
+    var parsedHistoricalQuoteArray = this.getHistoricalQuoteArray(responseText);
+
+    iterateTheQuoteArray(parsedHistoricalQuoteArray);
     return ClosingPrices;
 };

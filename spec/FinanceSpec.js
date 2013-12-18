@@ -30,7 +30,7 @@ describe("Finance", function() {
     });
 
     describe("when looking for the trade price of the Yahoo" +
-             "stock in a timeframe", function() {
+             " stock in a timeframe", function() {
         it("should contain all the LastTradePriceOnly of these days",
            function() {
             ClosingPrices = finance.getHistorical("YHOO", "2012-01-03",
