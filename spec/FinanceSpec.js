@@ -31,14 +31,24 @@ describe("Finance", function() {
 
     describe("when looking for the trade price of the Yahoo" +
              " stock in a timeframe", function() {
-        it("should contain all the LastTradePriceOnly of these days",
+        it("should contain the Date and ClosingPrices of these days",
            function() {
-            ClosingPrices = finance.getHistoricalInfos("YHOO", "2012-01-03",
-                                                  "2012-01-07");
-            expect(ClosingPrices[0]).toEqual(16.29);
-            expect(ClosingPrices[1]).toEqual(15.78);
-            expect(ClosingPrices[2]).toEqual(15.64);
-            expect(ClosingPrices[3]).toEqual(15.52);
+            DatePrices = finance.getHistoricalInfos("YHOO", "2012-01-03",
+                                                    "2012-01-07");
+
+            Price = DatePrices[1];
+
+            expect(Price[0]).toEqual(16.29);
+            expect(Price[1]).toEqual(15.78);
+            expect(Price[2]).toEqual(15.64);
+            expect(Price[3]).toEqual(15.52);
+
+            Dates = DatePrices[0];
+
+            expect(Dates[0]).toEqual("2012-01-03");
+            expect(Dates[1]).toEqual("2012-01-04");
+            expect(Dates[2]).toEqual("2012-01-05");
+            expect(Dates[3]).toEqual("2012-01-06");
         });
     });
 });

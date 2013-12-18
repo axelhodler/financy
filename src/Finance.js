@@ -70,15 +70,22 @@ function getHistoricalQuoteArray(responseText) {
     return parsedResponse.query.results.quote;
 };
 
-function addClosingPriceToArray(obj, key) {
+function addClosingPricesToPrices(obj, key) {
     if (key === "Close") {
-        ClosingPrices.push(parseFloat(obj[key]));
+        Prices.push(parseFloat(obj[key]));
     }
-}
+};
+
+function addDateToDates(obj, key) {
+    if (key === "Date") {
+        Dates.push(obj[key]);
+    }
+};
 
 function iterateTheKeysInQuote(obj) {
     for (var key in obj) {
-        addClosingPriceToArray(obj, key);
+        addClosingPricesToPrices(obj, key);
+        addDateToDates(obj, key);
     }
 }
 
@@ -90,9 +97,15 @@ function iterateTheQuoteArray(parsedHistoricalQuoteArray) {
 }
 
 function getHistoricalPrices(responseText) {
-    ClosingPrices = new Array();
+    Prices = new Array();
+    Dates = new Array();
     var parsedHistoricalQuoteArray = getHistoricalQuoteArray(responseText);
 
     iterateTheQuoteArray(parsedHistoricalQuoteArray);
-    return ClosingPrices;
+
+    DatePrices = new Array();
+    DatePrices.push(Dates);
+    DatePrices.push(Prices);
+
+    return DatePrices;
 };
