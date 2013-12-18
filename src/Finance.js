@@ -7,17 +7,17 @@ Finance.prototype.encodeQuery = function(query) {
     return encodeURIComponent(query);
 };
 
-Finance.prototype.buildStockQuery = function(symbol) {
+function buildStockQuery(symbol) {
     return 'select * from yahoo.finance.stocks where symbol="'
         + symbol + '"';
 };
 
-Finance.prototype.buildQuoteQuery = function(symbol) {
+function buildQuoteQuery(symbol) {
     return 'select * from yahoo.finance.quote where symbol="'
         + symbol + '"';
 };
 
-Finance.prototype.buildHistoricalQuery = function(symbol, startDate, endDate) {
+function buildHistoricalQuery(symbol, startDate, endDate) {
     return 'select * from yahoo.finance.historicaldata where symbol = "'
         + symbol + '" and startDate = "' + startDate + '" and endDate = "'
         + endDate + '"';
@@ -27,45 +27,45 @@ Finance.prototype.buildUrl = function(encodedQuery) {
     return this.baseUri + encodedQuery + this.suffix;
 };
 
-Finance.prototype.requestInfos = function(uri) {
+function requestInfos(uri) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", uri, false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
 };
 
-Finance.prototype.getStockObject = function(responseText) {
+function getStockObject(responseText) {
     var parsedStock = JSON.parse(responseText);
     return parsedStock.query.results.stock;
 };
 
-Finance.prototype.getQuoteObject = function(responseText) {
+function getQuoteObject(responseText) {
     var parsedQuote = JSON.parse(responseText);
     return parsedQuote.query.results.quote;
 };
 
 Finance.prototype.getStockInfos = function(symbol) {
-    fullUri = this.buildUrl(this.encodeQuery(this.buildStockQuery(symbol)));
-    var responseText = this.requestInfos(fullUri);
-    return this.getStockObject(responseText);
+    fullUri = this.buildUrl(this.encodeQuery(buildStockQuery(symbol)));
+    var responseText = requestInfos(fullUri);
+    return getStockObject(responseText);
 };
 
 Finance.prototype.getQuoteInfos = function(symbol) {
-    fullUri = this.buildUrl(this.encodeQuery(this.buildQuoteQuery(symbol)));
-    var responseText = this.requestInfos(fullUri);
-    return this.getQuoteObject(responseText);
+    fullUri = this.buildUrl(this.encodeQuery(buildQuoteQuery(symbol)));
+    var responseText = requestInfos(fullUri);
+    return getQuoteObject(responseText);
 };
 
 Finance.prototype.getHistorical = function(symbol, startDate, endDate) {
-    fullUri = this.buildUrl(this.encodeQuery(this.buildHistoricalQuery(symbol,
+    fullUri = this.buildUrl(this.encodeQuery(buildHistoricalQuery(symbol,
                                                                        startDate
                                                                        , endDate
                                                                       )));
-    var responseText = this.requestInfos(fullUri);
-    return this.getHistoricalPrices(responseText);
+    var responseText = requestInfos(fullUri);
+    return getHistoricalPrices(responseText);
 };
 
-Finance.prototype.getHistoricalQuoteArray = function(responseText) {
+function getHistoricalQuoteArray(responseText) {
     var parsedResponse = JSON.parse(responseText);
     return parsedResponse.query.results.quote;
 };
@@ -89,9 +89,9 @@ function iterateTheQuoteArray(parsedHistoricalQuoteArray) {
     }
 }
 
-Finance.prototype.getHistoricalPrices = function(responseText) {
+function getHistoricalPrices(responseText) {
     ClosingPrices = new Array();
-    var parsedHistoricalQuoteArray = this.getHistoricalQuoteArray(responseText);
+    var parsedHistoricalQuoteArray = getHistoricalQuoteArray(responseText);
 
     iterateTheQuoteArray(parsedHistoricalQuoteArray);
     return ClosingPrices;
