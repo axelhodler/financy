@@ -33,7 +33,7 @@ describe("Finance", function() {
              " stock in a timeframe", function() {
         it("should contain all the LastTradePriceOnly of these days",
            function() {
-            ClosingPrices = finance.getHistorical("YHOO", "2012-01-03",
+            ClosingPrices = finance.getHistoricalInfos("YHOO", "2012-01-03",
                                                   "2012-01-07");
             expect(ClosingPrices[0]).toEqual(16.29);
             expect(ClosingPrices[1]).toEqual(15.78);

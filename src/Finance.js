@@ -15,7 +15,7 @@ Finance.prototype.getQuoteInfos = function(symbol) {
     return getQuoteObject(responseText);
 };
 
-Finance.prototype.getHistorical = function(symbol, startDate, endDate) {
+Finance.prototype.getHistoricalInfos = function(symbol, startDate, endDate) {
     fullUri = this.buildUrl(this.encodeQuery(buildHistoricalQuery(symbol,
                                                                        startDate
                                                                        , endDate
