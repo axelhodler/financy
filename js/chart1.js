@@ -1,4 +1,8 @@
-function getDataAndDrawChart(symbol, startDate, endDate) {
+function getDataAndDrawChart() {
+
+    symbol = document.getElementById('symbol').value;
+    startDate = document.getElementById('startDate').value;
+    endDate = document.getElementById('endDate').value;
 
     finance = new Finance();
 
@@ -23,4 +27,7 @@ function getDataAndDrawChart(symbol, startDate, endDate) {
     var stock1 = document.getElementById('stock1').getContext('2d');
 
     new Chart(stock1).Line(stockData);
+
+    // prevents the page from reloading after the submit
+    return false;
 };
