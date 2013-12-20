@@ -1,8 +1,12 @@
-function getDataAndDrawChart() {
-
+function getFormValues() {
     symbol = document.getElementById('symbol').value;
     startDate = document.getElementById('startDate').value;
     endDate = document.getElementById('endDate').value;
+}
+
+function getDataAndDrawChart() {
+
+    getFormValues();
 
     finance = new Finance();
 
