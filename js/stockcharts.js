@@ -32,6 +32,9 @@ function getDataAndDrawChart() {
 
     new Chart(stock1).Line(stockData);
 
+    // use the className for Testing
+    document.getElementById('stock1').className = "drawn";
+
     // prevents the page from reloading after the submit
     return false;
 };
