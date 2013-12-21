@@ -38,15 +38,15 @@
     <div class="container">
       <div class="row">
         <h2>Stock1</h2>
-        <form role="form" onsubmit="return getDataAndDrawChart();">
+        <form role="form" id="addstock" onsubmit="return getDataAndDrawChart();">
           <div class="form-group">
-            <input type="text" class="form-control" id="symbol" placeholder="Symbol, e.g. 'YHOO'">
+            <input type="text" class="form-control" id="symbol" placeholder="Symbol, e.g. 'YHOO'" name="symbol">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="startDate" placeholder="Start, e.g. '2012-01-03'">
+            <input type="text" class="form-control" id="startDate" placeholder="Start, e.g. '2012-01-03'" name="startDate">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="endDate" placeholder="End, e.g. '2012-01-07'">
+            <input type="text" class="form-control" id="endDate" placeholder="End, e.g. '2012-01-07'" name="endDate">
           </div>
 
           <input class="btn btn-success pull-right" type="submit" value="Save Note" name="save">
